@@ -2,7 +2,6 @@ package com.gabo.profileinfo
 
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.gabo.profileinfo.databinding.ActivityMainBinding
@@ -16,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
         val personalInfoFunctions = PersonalInfoFunctions(this@MainActivity, binding)
         with(binding) {
             val list = listOf(tiedUserName, tiedFirstName, tiedLastName, tiedEmail, tiedPassword, tiedAge)
@@ -42,19 +42,7 @@ class MainActivity : AppCompatActivity() {
                 datePickerDialog.show()
             }
             btnSave.setOnClickListener {
-                with(personalInfoFunctions)
-                { if (userNameCheck(tiedUserName, tilUserName) &&
-                        emailCheck(tiedEmail, tilEmail) &&
-                        emptyError(tiedFirstName, tilFirstName) &&
-                        emptyError(tiedLastName, tilLastName) &&
-                        emptyError(tiedPassword, tilPassword) &&
-                        ageCheck(tiedAge, tilAge)
-                    ) {
-                        Toast.makeText(this@MainActivity, "Saved", Toast.LENGTH_SHORT).show()
-                    }else{
-                    Toast.makeText(this@MainActivity, "Please, fill all fields", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                personalInfoFunctions.save(list)
             }
             btnClear.setOnLongClickListener {
                 personalInfoFunctions.clearAll(list)

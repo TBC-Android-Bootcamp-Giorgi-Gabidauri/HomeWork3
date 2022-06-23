@@ -8,4 +8,8 @@
     <string name="age">Age</string>
     <string name="clear">Clear</string>
     <string name="save">Save</string>
+    <string name="errorEmail">Required* Does Not matches Email Pattern!</string>
+    <string name="errorEmpty">Required* Please Fill This Field</string>
+    <string name="errorMinUserNameChars">Required* can\'t be less than 10 characters</string>
+    <string name="errorDate">Required* Please enter date or Click on calendar and choose</string>
 </resources>

@@ -21,7 +21,6 @@
         app:boxCornerRadiusTopStart="16dp"
         app:boxStrokeColor="@color/green"
         app:counterEnabled="true"
-        app:counterMaxLength="9"
         app:counterOverflowTextColor="@color/green"
         app:counterTextColor="@color/red_required"
         app:endIconMode="clear_text"
@@ -158,7 +157,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilEmail"
-        app:startIconDrawable="@drawable/ic_lock_open"
+        app:startIconDrawable="@drawable/ic_lock_unchecked"
         app:startIconTint="@color/red_required">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -189,7 +188,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilPassword"
-        app:startIconDrawable="@drawable/ic_baseline_calendar_today_24"
+        app:startIconDrawable="@drawable/ic_date_unchecked"
         app:startIconTint="@color/red_required">
 
         <com.google.android.material.textfield.TextInputEditText

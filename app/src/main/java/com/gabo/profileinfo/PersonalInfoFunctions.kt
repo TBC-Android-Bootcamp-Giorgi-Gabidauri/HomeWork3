@@ -1,7 +1,9 @@
 package com.gabo.profileinfo
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.gabo.profileinfo.databinding.ActivityMainBinding
@@ -18,33 +20,37 @@ class PersonalInfoFunctions(
 ) {
     fun emptyError(tied: TextInputEditText, til: TextInputLayout): Boolean {
         val startIcon: Int
-        val startIconAndBoxStrokeColor: Int
+        val color: Int
         val errorMsg: String?
         var helperTextEnabled = true
         val readyToSave: Boolean
-        with(til){
-             if (tied.text.toString().isEmpty()) {
-                errorMsg = "Required* Please Fill This Field"
-                startIcon = if(this == binding.tilPassword){ (R.drawable.ic_lock_open) }else {
+        with(til) {
+            if (tied.text.toString().isEmpty()) {
+                errorMsg = context.getString(R.string.errorEmpty)
+                startIcon = if (this == binding.tilPassword) {
+                    (R.drawable.ic_lock_unchecked)
+                } else {
                     R.drawable.ic_person
                 }
-                startIconAndBoxStrokeColor = (R.color.red_required)
+                color = (R.color.red_required)
                 readyToSave = false
             } else {
                 errorMsg = null
-                 startIcon = if (this == binding.tilPassword) { (R.drawable.ic_lock) } else {
-                     (R.drawable.ic_baseline_person_24)
-                 }
-                startIconAndBoxStrokeColor = (R.color.green)
+                startIcon = if (this == binding.tilPassword) {
+                    (R.drawable.ic_lock_checked)
+                } else {
+                    (R.drawable.ic_person_checked)
+                }
+                color = (R.color.green)
                 helperTextEnabled = false
                 readyToSave = true
             }
         }
-        with(til){
+        with(til) {
             error = errorMsg
             setStartIconDrawable(startIcon)
-            setStartIconTintList(AppCompatResources.getColorStateList(context,startIconAndBoxStrokeColor))
-            boxStrokeColor = ContextCompat.getColor(context,startIconAndBoxStrokeColor)
+            setStartIconTintList(AppCompatResources.getColorStateList(context, color))
+            boxStrokeColor = ContextCompat.getColor(context, color)
             isHelperTextEnabled = helperTextEnabled
         }
         return readyToSave
@@ -52,36 +58,36 @@ class PersonalInfoFunctions(
 
     fun emailCheck(tied: TextInputEditText, til: TextInputLayout): Boolean {
         val startIcon: Int
-        val startIconAndBoxStrokeColor: Int
+        val color: Int
         val errorMsg: String?
         var helperTextEnabled = true
         val readyToSave: Boolean
         when {
             tied.text.toString().isEmpty() -> {
                 startIcon = (R.drawable.ic_mail)
-                startIconAndBoxStrokeColor = R.color.red_required
-                errorMsg = "Required* Please Fill This Field"
-               readyToSave = false
+                color = R.color.red_required
+                errorMsg = context.getString(R.string.errorEmpty)
+                readyToSave = false
             }
             android.util.Patterns.EMAIL_ADDRESS.matcher(tied.text.toString()).matches() -> {
                 errorMsg = null
-                startIcon = (R.drawable.ic_baseline_mail_24)
-                startIconAndBoxStrokeColor = R.color.green
+                startIcon = (R.drawable.ic_mail_checked)
+                color = R.color.green
                 helperTextEnabled = false
                 readyToSave = true
             }
             else -> {
-                errorMsg = "Required* Does Not matches Email Pattern!"
+                errorMsg = context.getString(R.string.errorEmail)
                 startIcon = (R.drawable.ic_mail)
-                startIconAndBoxStrokeColor = R.color.red_required
-               readyToSave = false
+                color = R.color.red_required
+                readyToSave = false
             }
         }
-        with(til){
+        with(til) {
             error = errorMsg
             setStartIconDrawable(startIcon)
-            setStartIconTintList(AppCompatResources.getColorStateList(context,startIconAndBoxStrokeColor))
-            boxStrokeColor = ContextCompat.getColor(context,startIconAndBoxStrokeColor)
+            setStartIconTintList(AppCompatResources.getColorStateList(context, color))
+            boxStrokeColor = ContextCompat.getColor(context, color)
             isHelperTextEnabled = helperTextEnabled
         }
         return readyToSave
@@ -89,38 +95,39 @@ class PersonalInfoFunctions(
 
     fun userNameCheck(tied: TextInputEditText, til: TextInputLayout): Boolean {
         val startIcon: Int
-        val startIconAndBoxStrokeColor: Int
+        val color: Int
         val errorMsg: String?
         val helperTextEnabled: Boolean
         val readyToSave: Boolean
         when {
             tied.text.toString().isEmpty() -> {
-                errorMsg = "Required* Please Fill This Field"
+                errorMsg = context.getString(R.string.errorEmpty)
                 startIcon = (R.drawable.ic_person)
-                startIconAndBoxStrokeColor = (R.color.red_required)
+                color = (R.color.red_required)
                 helperTextEnabled = true
                 readyToSave = false
             }
             tied.text!!.length < 10 -> {
-                errorMsg = "Required* can't be less than 10 characters"
+                errorMsg = context.getString(R.string.errorMinUserNameChars)
                 startIcon = (R.drawable.ic_person)
-                startIconAndBoxStrokeColor =(R.color.red_required)
+                color = (R.color.red_required)
                 helperTextEnabled = true
                 readyToSave = false
             }
             else -> {
                 errorMsg = null
-                startIcon = (R.drawable.ic_baseline_person_24)
-                startIconAndBoxStrokeColor = (R.color.green)
-                helperTextEnabled =  false
+                startIcon = (R.drawable.ic_person_checked)
+                color = (R.color.green)
+                helperTextEnabled = false
                 readyToSave = true
             }
         }
-        with(til){
+        with(til) {
             error = errorMsg
             setStartIconDrawable(startIcon)
-            setStartIconTintList(AppCompatResources.getColorStateList(context,startIconAndBoxStrokeColor))
-            boxStrokeColor = ContextCompat.getColor(context,startIconAndBoxStrokeColor)
+            counterTextColor = AppCompatResources.getColorStateList(context, color)
+            setStartIconTintList(AppCompatResources.getColorStateList(context, color))
+            boxStrokeColor = ContextCompat.getColor(context, color)
             isHelperTextEnabled = helperTextEnabled
         }
         return readyToSave
@@ -128,33 +135,34 @@ class PersonalInfoFunctions(
 
     fun ageCheck(tied: TextInputEditText, til: TextInputLayout): Boolean {
         val startIcon: Int
-        val startIconAndBoxStrokeColor: Int
+        val color: Int
         val errorMsg: String?
         var helperTextEnabled = true
         if (tied.text.toString().isEmpty()) {
-            errorMsg = "Required* Please Fill This Field"
-            startIcon = (R.drawable.ic_baseline_calendar_today_24)
-            startIconAndBoxStrokeColor = (R.color.red_required)
+            errorMsg = context.getString(R.string.errorEmpty)
+            startIcon = (R.drawable.ic_date_unchecked)
+            color = (R.color.red_required)
         } else if (dateFormatter(tied.text.toString()) == "") {
-            startIcon = (R.drawable.ic_baseline_calendar_today_24)
-            startIconAndBoxStrokeColor = (R.color.red_required)
-            errorMsg = "Required* Please enter date or Click on calendar and choose"
+            startIcon = (R.drawable.ic_date_unchecked)
+            color = (R.color.red_required)
+            errorMsg = context.getString(R.string.errorDate)
         } else {
             errorMsg = null
-            startIcon = (R.drawable.ic_baseline_calendar_month_24)
-            startIconAndBoxStrokeColor = (R.color.green)
+            startIcon = (R.drawable.ic_date_checked)
+            color = (R.color.green)
             helperTextEnabled = false
         }
-        with(til){
+        with(til) {
             error = errorMsg
             setStartIconDrawable(startIcon)
-            setStartIconTintList(AppCompatResources.getColorStateList(context,startIconAndBoxStrokeColor))
-            boxStrokeColor = ContextCompat.getColor(context,startIconAndBoxStrokeColor)
+            setStartIconTintList(AppCompatResources.getColorStateList(context, color))
+            boxStrokeColor = ContextCompat.getColor(context, color)
             isHelperTextEnabled = helperTextEnabled
         }
         return errorMsg == null
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun createDatePickerDialog(tied: TextInputEditText): DatePickerDialog {
         tied.setText(SimpleDateFormat("dd-MM-yyyy").format(System.currentTimeMillis()))
         val cal = Calendar.getInstance()
@@ -197,4 +205,28 @@ class PersonalInfoFunctions(
         }
         return date
     }
+
+    fun save(list: List<TextInputEditText>) {
+        with(binding) {
+            if (userNameCheck(tiedUserName, tilUserName) &&
+                emailCheck(tiedEmail, tilEmail) &&
+                emptyError(tiedFirstName, tilFirstName) &&
+                emptyError(tiedLastName, tilLastName) &&
+                emptyError(tiedPassword, tilPassword) &&
+                ageCheck(tiedAge, tilAge)
+            ) {
+                Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Please, fill all fields", Toast.LENGTH_SHORT)
+                    .show()
+                for(element in list){
+                    if(element.text.toString().isEmpty()){
+                        clearField(element)
+                    }
+                }
+            }
+
+        }
+    }
 }
+
